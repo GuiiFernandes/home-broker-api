@@ -1,0 +1,21 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Asset{
+  id          String    @id @map("_id") //para facilitar nosso uso em todos os sistemas definimos o id como string padrão que será mapeado para o _id do documento do mongo
+  symbol      String
+  price       Float
+  created_at  DateTime  @default(now()) //definimos o created_at como DateTime e com o valor padrão now() para que o prisma preencha automaticamente
+  updated_at  DateTime  @updatedAt // definimos o updated_at como DateTime e com o valor padrão updatedAt para que o prisma preencha automaticamente
+}
+// como estamos trabalhando com mongo não precisamos criar ou popular tabela, só precisamos definir o modelo e o prisma irá criar a tabela automaticamente aí é só inserir os dados
+// se tivessemos trabalhando com sql teriamos que criar a tabela e popular com os dados com npx prisma migrate dev
