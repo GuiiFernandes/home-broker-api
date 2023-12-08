@@ -6,7 +6,7 @@ POST http://localhost:3000/assets
 Content-Type: application/json
 
 {
-  "id": "Asset 1",
-  "symbol": "A1",
+  "id": "Asset 2",
+  "symbol": "A2",
   "price": 100
 }
