@@ -3,6 +3,7 @@ version: "3"
 services:
   app:
     build: .
+    container_name: home-broker-api
     ports:
       - 3000:3000
     volumes:
@@ -10,12 +11,14 @@ services:
 
   db:
     image: bitnami/mongodb:5.0.17
-    volumes:
-      - mongodb_data:/bitnami/mongodb
+    container_name: home-broker-db
+    # volumes:
+    #   - mongodb_data:/bitnami
+    restart: always
     environment:
       MONGODB_ROOT_PASSWORD: root
       MONGODB_REPLICA_SET_MODE: primary
-      MONGODB_REPLICA_SET_KEY: 123456
+      MONGODB_REPLICA_SET_KEY: replica123
       MONGODB_DATABASE: nest
 
 volumes:
