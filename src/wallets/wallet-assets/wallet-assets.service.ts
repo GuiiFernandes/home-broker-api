@@ -26,11 +26,7 @@ export class WalletAssetsService {
     shares: number;
   }) {
     return this.prismaService.walletAsset.create({
-      data: {
-        wallet_id,
-        asset_id,
-        shares,
-      },
+      data: { wallet_id, asset_id, shares },
     });
   }
 }

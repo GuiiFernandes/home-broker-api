@@ -16,9 +16,6 @@ export class WalletAssetsController {
     @Body() body: { asset_id: string; shares: number },
   ) {
     console.log('wallet_id', wallet_id);
-    return this.walletAssetsService.create({
-      wallet_id,
-      ...body,
-    });
+    return this.walletAssetsService.create({ wallet_id, ...body });
   }
 }
