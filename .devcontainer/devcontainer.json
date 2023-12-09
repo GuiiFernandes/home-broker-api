@@ -32,7 +32,10 @@
 				"humao.rest-client",
 				"esbenp.prettier-vscode",
 				"dbaeumer.vscode-eslint"
-			]
+			],
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "zsh"
+			}
 		}
 	}
 

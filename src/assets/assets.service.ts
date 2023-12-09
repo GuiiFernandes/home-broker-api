@@ -11,7 +11,7 @@ export class AssetsService {
     });
   }
 
-  findAll() {
+  all() {
     return this.prismaService.asset.findMany();
   }
 }

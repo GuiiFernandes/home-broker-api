@@ -6,8 +6,8 @@ export class AssetsController {
   constructor(private readonly assetsService: AssetsService) {}
 
   @Get()
-  findAll() {
-    return this.assetsService.findAll();
+  all() {
+    return this.assetsService.all();
   }
 
   @Post()
