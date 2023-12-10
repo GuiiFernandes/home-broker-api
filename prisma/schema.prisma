@@ -11,21 +11,23 @@ datasource db {
 }
 
 model Asset{
-  id          String    @id @map("_id") //para facilitar nosso uso em todos os sistemas definimos o id como string padrão que será mapeado para o _id do documento do mongo
-  symbol      String
-  price       Float
-  created_at  DateTime  @default(now()) //definimos o created_at como DateTime e com o valor padrão now() para que o prisma preencha automaticamente
-  updated_at  DateTime  @updatedAt // definimos o updated_at como DateTime e com o valor padrão updatedAt para que o prisma preencha automaticamente
-  WalletAssets WalletAsset[]
+  id            String        @id @map("_id") //para facilitar nosso uso em todos os sistemas definimos o id como string padrão que será mapeado para o _id do documento do mongo
+  symbol        String
+  price         Float
+  created_at    DateTime      @default(now()) //definimos o created_at como DateTime e com o valor padrão now() para que o prisma preencha automaticamente
+  updated_at    DateTime      @updatedAt // definimos o updated_at como DateTime e com o valor padrão updatedAt para que o prisma preencha automaticamente
+  WalletAssets  WalletAsset[]
+  Orders        Order[]
 }
 // como estamos trabalhando com mongo não precisamos criar ou popular tabela, só precisamos definir o modelo e o prisma irá criar a tabela automaticamente aí é só inserir os dados
 // se tivessemos trabalhando com sql teriamos que criar a tabela e popular com os dados com npx prisma migrate dev
 
 model Wallet {
-  id          String    @id @map("_id")
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
-  WalletAssets WalletAsset[]
+  id            String        @id @map("_id")
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
+  WalletAssets  WalletAsset[]
+  Orders        Order[]
 }
 
 model WalletAsset {
@@ -39,4 +41,31 @@ model WalletAsset {
   updated_at  DateTime  @updatedAt
 
   @@unique([wallet_id, asset_id])
+}
+
+model Order{
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  Wallet      Wallet      @relation(fields: [wallet_id], references: [id])
+  wallet_id   String
+  Asset       Asset       @relation(fields: [asset_id], references: [id])
+  asset_id    String
+  shares      Int         @db.Int
+  price       Float
+  type        OrderType
+  status      OrderStatus
+  partial     Int         @db.Int
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+}
+
+enum OrderType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  OPEN
+  CLOSED
+  FAILED
 }
