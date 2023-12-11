@@ -37,6 +37,7 @@ model WalletAsset {
   Asset       Asset     @relation(fields: [asset_id], references: [id])
   asset_id    String
   shares      Int       @db.Int
+  version     Int
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
 
@@ -53,9 +54,11 @@ model Order{
   price       Float
   type        OrderType
   status      OrderStatus
+  version     Int
   partial     Int         @db.Int
   created_at  DateTime    @default(now())
   updated_at  DateTime    @updatedAt
+  Transactions Transaction[]
 }
 
 enum OrderType {
@@ -68,4 +71,16 @@ enum OrderStatus {
   OPEN
   CLOSED
   FAILED
+}
+
+model Transaction {
+  id                    String      @id @default(auto()) @map("_id") @db.ObjectId
+  Order                 Order       @relation(fields: [order_id], references: [id])
+  order_id              String      @db.ObjectId
+  related_investor_id   String
+  broker_transaction_id String
+  shares                Int         @db.Int
+  price                 Float
+  created_at            DateTime    @default(now())
+  updated_at            DateTime    @updatedAt
 }
